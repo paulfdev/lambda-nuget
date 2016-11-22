@@ -1,4 +1,5 @@
 'use strict';
+/* this handler deals with searchin for packages, updates etc */
 
 module.exports.Packages = (event, context, callback) => {
   const response = {

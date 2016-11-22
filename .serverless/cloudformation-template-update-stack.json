@@ -58,6 +58,50 @@
         ]
       }
     },
+    "RootLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
+        },
+        "FunctionName": "lambdaget-dev-root",
+        "Handler": "rootHandler.Root",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs4.3",
+        "Timeout": 6
+      }
+    },
+    "MetadataLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
+        },
+        "FunctionName": "lambdaget-dev-metadata",
+        "Handler": "metadataHandler.Metadata",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs4.3",
+        "Timeout": 6
+      }
+    },
     "CreatepackageRootLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -65,7 +109,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambdaget/dev/1479850210025-2016-11-22T21:30:10.025Z/lambdaget.zip"
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
         },
         "FunctionName": "lambdaget-dev-createpackageRoot",
         "Handler": "createPackageRootHandler.CreatePackageRoot",
@@ -87,7 +131,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambdaget/dev/1479850210025-2016-11-22T21:30:10.025Z/lambdaget.zip"
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
         },
         "FunctionName": "lambdaget-dev-createpackage",
         "Handler": "createPackageHandler.CreatePackage",
@@ -109,7 +153,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambdaget/dev/1479850210025-2016-11-22T21:30:10.025Z/lambdaget.zip"
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
         },
         "FunctionName": "lambdaget-dev-deletePackageRoot",
         "Handler": "deletePackageRootHandler.DeletePackageRoot",
@@ -131,7 +175,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambdaget/dev/1479850210025-2016-11-22T21:30:10.025Z/lambdaget.zip"
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
         },
         "FunctionName": "lambdaget-dev-deletepackage",
         "Handler": "deletePackageHandler.DeletePackage",
@@ -153,7 +197,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambdaget/dev/1479850210025-2016-11-22T21:30:10.025Z/lambdaget.zip"
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
         },
         "FunctionName": "lambdaget-dev-downloadpackage",
         "Handler": "downloadPackageHandler.DownloadPackage",
@@ -175,7 +219,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambdaget/dev/1479850210025-2016-11-22T21:30:10.025Z/lambdaget.zip"
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
         },
         "FunctionName": "lambdaget-dev-clearPackageCache",
         "Handler": "clearPackageCacheHandler.ClearPackageCache",
@@ -197,7 +241,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/lambdaget/dev/1479850210025-2016-11-22T21:30:10.025Z/lambdaget.zip"
+          "S3Key": "serverless/lambdaget/dev/1479855571826-2016-11-22T22:59:31.826Z/lambdaget.zip"
         },
         "FunctionName": "lambdaget-dev-packages",
         "Handler": "packagesHandler.Packages",
@@ -216,6 +260,45 @@
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
         "Name": "dev-lambdaget"
+      }
+    },
+    "ApiGatewayResourceApiV2": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceApi"
+        },
+        "PathPart": "v2",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceApi": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "api",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceApiV2MetadataVar": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceApiV2"
+        },
+        "PathPart": "{metadata}",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
       }
     },
     "ApiGatewayResourceCreatepackageDashroot": {
@@ -252,33 +335,6 @@
           "Ref": "ApiGatewayResourceApiV2"
         },
         "PathPart": "package",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayResourceApiV2": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Ref": "ApiGatewayResourceApi"
-        },
-        "PathPart": "v2",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayResourceApi": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Fn::GetAtt": [
-            "ApiGatewayRestApi",
-            "RootResourceId"
-          ]
-        },
-        "PathPart": "api",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -345,6 +401,296 @@
           "Ref": "ApiGatewayResourceApiV2"
         },
         "PathPart": "Packages",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodApiV2Any": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "MethodResponses": [
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 200
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 400
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 401
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 403
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 404
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 422
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 500
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 502
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 504
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "RootLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          },
+          "RequestTemplates": {
+            "application/json": "\n            #define( $loop )\n              {\n              #foreach($key in $map.keySet())\n                  \"$util.escapeJavaScript($key)\":\n                    \"$util.escapeJavaScript($map.get($key))\"\n                    #if( $foreach.hasNext ) , #end\n              #end\n              }\n            #end\n\n            {\n              \"body\": $input.json(\"$\"),\n              \"method\": \"$context.httpMethod\",\n              \"principalId\": \"$context.authorizer.principalId\",\n              \"stage\": \"$context.stage\",\n\n              #set( $map = $input.params().header )\n              \"headers\": $loop,\n\n              #set( $map = $input.params().querystring )\n              \"query\": $loop,\n\n              #set( $map = $input.params().path )\n              \"path\": $loop,\n\n              #set( $map = $context.identity )\n              \"identity\": $loop,\n\n              #set( $map = $stageVariables )\n              \"stageVariables\": $loop\n            }\n          ",
+            "application/x-www-form-urlencoded": "\n            #define( $body )\n              {\n              #foreach( $token in $input.path('$').split('&') )\n                #set( $keyVal = $token.split('=') )\n                #set( $keyValSize = $keyVal.size() )\n                #if( $keyValSize >= 1 )\n                  #set( $key = $util.escapeJavaScript($util.urlDecode($keyVal[0])) )\n                  #if( $keyValSize >= 2 )\n                    #set( $val = $util.escapeJavaScript($util.urlDecode($keyVal[1])) )\n                  #else\n                    #set( $val = '' )\n                  #end\n                  \"$key\": \"$val\"#if($foreach.hasNext),#end\n                #end\n              #end\n              }\n            #end\n\n            #define( $loop )\n              {\n              #foreach($key in $map.keySet())\n                  \"$util.escapeJavaScript($key)\":\n                    \"$util.escapeJavaScript($map.get($key))\"\n                    #if( $foreach.hasNext ) , #end\n              #end\n              }\n            #end\n\n            {\n              \"body\": $body,\n              \"method\": \"$context.httpMethod\",\n              \"principalId\": \"$context.authorizer.principalId\",\n              \"stage\": \"$context.stage\",\n\n              #set( $map = $input.params().header )\n              \"headers\": $loop,\n\n              #set( $map = $input.params().querystring )\n              \"query\": $loop,\n\n              #set( $map = $input.params().path )\n              \"path\": $loop,\n\n              #set( $map = $context.identity )\n              \"identity\": $loop,\n\n              #set( $map = $stageVariables )\n              \"stageVariables\": $loop\n            }\n          "
+          },
+          "PassthroughBehavior": "NEVER",
+          "IntegrationResponses": [
+            {
+              "StatusCode": 200,
+              "SelectionPattern": "",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 400,
+              "SelectionPattern": ".*\\[400\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 401,
+              "SelectionPattern": ".*\\[401\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 403,
+              "SelectionPattern": ".*\\[403\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 404,
+              "SelectionPattern": ".*\\[404\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 422,
+              "SelectionPattern": ".*\\[422\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 500,
+              "SelectionPattern": ".*(Process\\s?exited\\s?before\\s?completing\\s?request|\\[500\\]).*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 502,
+              "SelectionPattern": ".*\\[502\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 504,
+              "SelectionPattern": ".*\\[504\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceApiV2"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodApiV2MetadataVarAny": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "MethodResponses": [
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 200
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 400
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 401
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 403
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 404
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 422
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 500
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 502
+          },
+          {
+            "ResponseParameters": {},
+            "ResponseModels": {},
+            "StatusCode": 504
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "MetadataLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          },
+          "RequestTemplates": {
+            "application/json": "\n            #define( $loop )\n              {\n              #foreach($key in $map.keySet())\n                  \"$util.escapeJavaScript($key)\":\n                    \"$util.escapeJavaScript($map.get($key))\"\n                    #if( $foreach.hasNext ) , #end\n              #end\n              }\n            #end\n\n            {\n              \"body\": $input.json(\"$\"),\n              \"method\": \"$context.httpMethod\",\n              \"principalId\": \"$context.authorizer.principalId\",\n              \"stage\": \"$context.stage\",\n\n              #set( $map = $input.params().header )\n              \"headers\": $loop,\n\n              #set( $map = $input.params().querystring )\n              \"query\": $loop,\n\n              #set( $map = $input.params().path )\n              \"path\": $loop,\n\n              #set( $map = $context.identity )\n              \"identity\": $loop,\n\n              #set( $map = $stageVariables )\n              \"stageVariables\": $loop\n            }\n          ",
+            "application/x-www-form-urlencoded": "\n            #define( $body )\n              {\n              #foreach( $token in $input.path('$').split('&') )\n                #set( $keyVal = $token.split('=') )\n                #set( $keyValSize = $keyVal.size() )\n                #if( $keyValSize >= 1 )\n                  #set( $key = $util.escapeJavaScript($util.urlDecode($keyVal[0])) )\n                  #if( $keyValSize >= 2 )\n                    #set( $val = $util.escapeJavaScript($util.urlDecode($keyVal[1])) )\n                  #else\n                    #set( $val = '' )\n                  #end\n                  \"$key\": \"$val\"#if($foreach.hasNext),#end\n                #end\n              #end\n              }\n            #end\n\n            #define( $loop )\n              {\n              #foreach($key in $map.keySet())\n                  \"$util.escapeJavaScript($key)\":\n                    \"$util.escapeJavaScript($map.get($key))\"\n                    #if( $foreach.hasNext ) , #end\n              #end\n              }\n            #end\n\n            {\n              \"body\": $body,\n              \"method\": \"$context.httpMethod\",\n              \"principalId\": \"$context.authorizer.principalId\",\n              \"stage\": \"$context.stage\",\n\n              #set( $map = $input.params().header )\n              \"headers\": $loop,\n\n              #set( $map = $input.params().querystring )\n              \"query\": $loop,\n\n              #set( $map = $input.params().path )\n              \"path\": $loop,\n\n              #set( $map = $context.identity )\n              \"identity\": $loop,\n\n              #set( $map = $stageVariables )\n              \"stageVariables\": $loop\n            }\n          "
+          },
+          "PassthroughBehavior": "NEVER",
+          "IntegrationResponses": [
+            {
+              "StatusCode": 200,
+              "SelectionPattern": "",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 400,
+              "SelectionPattern": ".*\\[400\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 401,
+              "SelectionPattern": ".*\\[401\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 403,
+              "SelectionPattern": ".*\\[403\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 404,
+              "SelectionPattern": ".*\\[404\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 422,
+              "SelectionPattern": ".*\\[422\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 500,
+              "SelectionPattern": ".*(Process\\s?exited\\s?before\\s?completing\\s?request|\\[500\\]).*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 502,
+              "SelectionPattern": ".*\\[502\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            },
+            {
+              "StatusCode": 504,
+              "SelectionPattern": ".*\\[504\\].*",
+              "ResponseParameters": {},
+              "ResponseTemplates": {}
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceApiV2MetadataVar"
+        },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -1365,7 +1711,7 @@
         }
       }
     },
-    "ApiGatewayDeployment1479850210042": {
+    "ApiGatewayDeployment1479855571844": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1374,6 +1720,8 @@
         "StageName": "dev"
       },
       "DependsOn": [
+        "ApiGatewayMethodApiV2Any",
+        "ApiGatewayMethodApiV2MetadataVarAny",
         "ApiGatewayMethodCreatepackageDashrootPut",
         "ApiGatewayMethodApiV2PackageCreatepackagePut",
         "ApiGatewayMethodDeletepackageDashrootDelete",
@@ -1382,6 +1730,32 @@
         "ApiGatewayMethodNugetserverApiClearDashcacheGet",
         "ApiGatewayMethodApiV2PackagesGet"
       ]
+    },
+    "RootLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "RootLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com"
+      }
+    },
+    "MetadataLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "MetadataLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com"
+      }
     },
     "CreatepackageRootLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
@@ -1473,18 +1847,30 @@
         "Action": "lambda:InvokeFunction",
         "Principal": "apigateway.amazonaws.com"
       }
-    },
-    "NewResource": {
-      "Type": "AWS::S3::Bucket",
-      "Properties": {
-        "BucketName": "pfnet-nuget"
-      }
     }
   },
   "Outputs": {
     "ServerlessDeploymentBucketName": {
       "Value": {
         "Ref": "ServerlessDeploymentBucket"
+      }
+    },
+    "RootLambdaFunctionArn": {
+      "Description": "Lambda function info",
+      "Value": {
+        "Fn::GetAtt": [
+          "RootLambdaFunction",
+          "Arn"
+        ]
+      }
+    },
+    "MetadataLambdaFunctionArn": {
+      "Description": "Lambda function info",
+      "Value": {
+        "Fn::GetAtt": [
+          "MetadataLambdaFunction",
+          "Arn"
+        ]
       }
     },
     "CreatepackageRootLambdaFunctionArn": {
@@ -1564,10 +1950,6 @@
           ]
         ]
       }
-    },
-    "NewOutput": {
-      "Description": "Description for the output",
-      "Value": "Some output value"
     }
   }
 }

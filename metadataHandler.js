@@ -1,15 +1,16 @@
-'use strict';
 
-module.exports.CreatePackage = (event, context, callback) => {
+module.exports.Metadata = (event, context, callback) => {
   const response = {
     statusCode: 200,
-    body: JSON.stringify({
+    body: 'METADATA'
+  };
+
+  console.log(response.body);
+  console.log(JSON.stringify({
       evt : event,
       ctx : context,
       callbk : callback
-    }),
-  };
-  console.log(response.body);
+    }));
   callback(null, response);
 
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration

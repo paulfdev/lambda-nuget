@@ -47,6 +47,18 @@ provider:
 #  artifact: my-service-code.zip
 
 functions:
+  root:
+    handler: rootHandler.Root
+    events:
+      - http:
+          path: api/v2
+          method: any
+  metadata:
+    handler: metadataHandler.Metadata
+    events:
+      - http:
+          path: api/v2/{metadata}
+          method: any
   createpackageRoot:
     handler: createPackageRootHandler.CreatePackageRoot
     events:
@@ -103,13 +115,13 @@ functions:
 #      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
 
 # you can add CloudFormation resource templates here
-resources:
-  Resources:
-    NewResource:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: pfnet-nuget
-  Outputs:
-     NewOutput:
-       Description: "Description for the output"
-       Value: "Some output value"
+#resources:
+#  Resources:
+#    NewResource:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: pfnet-nuget
+#  Outputs:
+#     NewOutput:
+#       Description: "Description for the output"
+#       Value: "Some output value"
