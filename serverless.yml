@@ -22,7 +22,7 @@ provider:
   runtime: nodejs4.3
   stage: dev
   region: eu-west-1
-  profile: Home
+  profile: default
 
 # you can add statements to the Lambda function's IAM Role here
 
@@ -53,55 +53,7 @@ functions:
       - http:
           path: api/v2
           method: any
-  metadata:
-    handler: metadataHandler.Metadata
-    events:
-      - http:
-          path: api/v2/{metadata}
-          method: any
-  createpackageRoot:
-    handler: createPackageRootHandler.CreatePackageRoot
-    events:
-      - http:
-          path: CreatePackage-Root
-          method: put
-  createpackage:
-    handler: createPackageHandler.CreatePackage
-    events:
-      - http:
-          path: api/v2/package/CreatePackage
-          method: put
-  deletePackageRoot:
-    handler: deletePackageRootHandler.DeletePackageRoot
-    events:
-      - http:
-          path: DeletePackage-Root
-          method: delete
-  deletepackage:
-    handler: deletePackageHandler.DeletePackage
-    events:
-      - http:
-          path: api/v2/package
-          method: delete
-  downloadpackage:
-    handler: downloadPackageHandler.DownloadPackage
-    events:
-      - http:
-          path: api/v2/package
-          method: get
-  clearPackageCache:
-    handler: clearPackageCacheHandler.ClearPackageCache
-    events:
-      - http:
-          path: nugetserver/api/clear-cache
-          method: get
-  packages:
-    handler: packagesHandler.Packages
-    events:
-      - http: 
-          path: api/v2/Packages
-          method: get
-
+  
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
