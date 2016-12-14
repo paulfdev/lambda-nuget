@@ -28,5 +28,4 @@ module.exports = function(app) {
     function createPackage(req, res) {
         res.send("test")
     }
-
 }

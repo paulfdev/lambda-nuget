@@ -1,7 +1,5 @@
-var express = require('express')
-var app = express()
-var port = 3000
+'use strict'
+const express = require('express')
+const app = express()
 require('./routes')(app);
-app.listen(port, function() {
-    console.log('Example app listening on port ' + port)
-})
+module.exports = app
